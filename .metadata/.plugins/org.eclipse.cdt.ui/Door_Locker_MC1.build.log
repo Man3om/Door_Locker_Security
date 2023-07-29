@@ -1,4 +1,4 @@
-02:17:18 **** Incremental Build of configuration Debug for project Door_Locker_MC1 ****
+05:44:13 **** Incremental Build of configuration Debug for project Door_Locker_MC1 ****
 make all 
 Invoking: Print Size
 avr-size --format=avr --mcu=atmega32 Door_Locker_MC1.elf
@@ -16,5 +16,5 @@ Data:        171 bytes (8.3% Full)
 Finished building: sizedummy
  
 
-02:17:19 Build Finished. 0 errors, 0 warnings. (took 569ms)
+05:44:13 Build Finished. 0 errors, 0 warnings. (took 398ms)
 

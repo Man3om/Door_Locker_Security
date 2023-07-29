@@ -2422,3 +2422,293 @@ Data:         25 bytes (1.2% Full)
 
 Finished building: sizedummy
  
+05:42:41 **** Clean-only build of configuration Debug for project Door_Locker_MC1 ****
+make clean 
+rm -rf  ./App.o ./gpio.o ./keypad.o ./lcd.o ./timerOne.o ./uart.o  sizedummy  Door_Locker_MC1.lss  ./App.d ./gpio.d ./keypad.d ./lcd.d ./timerOne.d ./uart.d  Door_Locker_MC1.elf
+ 
+05:42:45 **** Incremental Build of configuration Debug for project Door_Locker_MC1 ****
+make all 
+Building file: ../App.c
+Invoking: AVR Compiler
+avr-gcc -Wall -g2 -gstabs -O0 -fpack-struct -fshort-enums -ffunction-sections -fdata-sections -std=gnu99 -funsigned-char -funsigned-bitfields -mmcu=atmega32 -DF_CPU=8000000UL -MMD -MP -MF"App.d" -MT"App.o" -c -o "App.o" "../App.c"
+In file included from ../App.c:12:
+c:/winavr-20100110/lib/gcc/../../avr/include/util/delay.h:90:3: warning: #warning "Compiler optimizations disabled; functions from <util/delay.h> won't work as designed"
+../App.c:376: error: expected identifier or '(' before '>>' token
+make: *** [App.o] Error 1
+"make all" terminated with exit code 2. Build might be incomplete.
+05:42:47 **** Clean-only build of configuration Debug for project Door_Locker_MC2 ****
+make clean 
+rm -rf  ./App.o ./buzzer.o ./dc_motor.o ./external_eeprom.o ./gpio.o ./pwm.o ./timerOne.o ./twi.o ./uart.o  sizedummy  Door_Locker_MC2.lss  ./App.d ./buzzer.d ./dc_motor.d ./external_eeprom.d ./gpio.d ./pwm.d ./timerOne.d ./twi.d ./uart.d  Door_Locker_MC2.elf
+ 
+05:42:48 **** Incremental Build of configuration Debug for project Door_Locker_MC2 ****
+make all 
+Building file: ../App.c
+Invoking: AVR Compiler
+avr-gcc -Wall -g2 -gstabs -O0 -fpack-struct -fshort-enums -ffunction-sections -fdata-sections -std=gnu99 -funsigned-char -funsigned-bitfields -mmcu=atmega32 -DF_CPU=8000000UL -MMD -MP -MF"App.d" -MT"App.o" -c -o "App.o" "../App.c"
+In file included from ../App.c:14:
+c:/winavr-20100110/lib/gcc/../../avr/include/util/delay.h:90:3: warning: #warning "Compiler optimizations disabled; functions from <util/delay.h> won't work as designed"
+../App.c:22:1: warning: "ERROR" redefined
+In file included from ../App.c:13:
+../external_eeprom.h:22:1: warning: this is the location of the previous definition
+Finished building: ../App.c
+ 
+Building file: ../buzzer.c
+Invoking: AVR Compiler
+avr-gcc -Wall -g2 -gstabs -O0 -fpack-struct -fshort-enums -ffunction-sections -fdata-sections -std=gnu99 -funsigned-char -funsigned-bitfields -mmcu=atmega32 -DF_CPU=8000000UL -MMD -MP -MF"buzzer.d" -MT"buzzer.o" -c -o "buzzer.o" "../buzzer.c"
+Finished building: ../buzzer.c
+ 
+Building file: ../dc_motor.c
+Invoking: AVR Compiler
+avr-gcc -Wall -g2 -gstabs -O0 -fpack-struct -fshort-enums -ffunction-sections -fdata-sections -std=gnu99 -funsigned-char -funsigned-bitfields -mmcu=atmega32 -DF_CPU=8000000UL -MMD -MP -MF"dc_motor.d" -MT"dc_motor.o" -c -o "dc_motor.o" "../dc_motor.c"
+Finished building: ../dc_motor.c
+ 
+Building file: ../external_eeprom.c
+Invoking: AVR Compiler
+avr-gcc -Wall -g2 -gstabs -O0 -fpack-struct -fshort-enums -ffunction-sections -fdata-sections -std=gnu99 -funsigned-char -funsigned-bitfields -mmcu=atmega32 -DF_CPU=8000000UL -MMD -MP -MF"external_eeprom.d" -MT"external_eeprom.o" -c -o "external_eeprom.o" "../external_eeprom.c"
+Finished building: ../external_eeprom.c
+ 
+Building file: ../gpio.c
+Invoking: AVR Compiler
+avr-gcc -Wall -g2 -gstabs -O0 -fpack-struct -fshort-enums -ffunction-sections -fdata-sections -std=gnu99 -funsigned-char -funsigned-bitfields -mmcu=atmega32 -DF_CPU=8000000UL -MMD -MP -MF"gpio.d" -MT"gpio.o" -c -o "gpio.o" "../gpio.c"
+Finished building: ../gpio.c
+ 
+Building file: ../pwm.c
+Invoking: AVR Compiler
+avr-gcc -Wall -g2 -gstabs -O0 -fpack-struct -fshort-enums -ffunction-sections -fdata-sections -std=gnu99 -funsigned-char -funsigned-bitfields -mmcu=atmega32 -DF_CPU=8000000UL -MMD -MP -MF"pwm.d" -MT"pwm.o" -c -o "pwm.o" "../pwm.c"
+Finished building: ../pwm.c
+ 
+Building file: ../timerOne.c
+Invoking: AVR Compiler
+avr-gcc -Wall -g2 -gstabs -O0 -fpack-struct -fshort-enums -ffunction-sections -fdata-sections -std=gnu99 -funsigned-char -funsigned-bitfields -mmcu=atmega32 -DF_CPU=8000000UL -MMD -MP -MF"timerOne.d" -MT"timerOne.o" -c -o "timerOne.o" "../timerOne.c"
+Finished building: ../timerOne.c
+ 
+Building file: ../twi.c
+Invoking: AVR Compiler
+avr-gcc -Wall -g2 -gstabs -O0 -fpack-struct -fshort-enums -ffunction-sections -fdata-sections -std=gnu99 -funsigned-char -funsigned-bitfields -mmcu=atmega32 -DF_CPU=8000000UL -MMD -MP -MF"twi.d" -MT"twi.o" -c -o "twi.o" "../twi.c"
+Finished building: ../twi.c
+ 
+Building file: ../uart.c
+Invoking: AVR Compiler
+avr-gcc -Wall -g2 -gstabs -O0 -fpack-struct -fshort-enums -ffunction-sections -fdata-sections -std=gnu99 -funsigned-char -funsigned-bitfields -mmcu=atmega32 -DF_CPU=8000000UL -MMD -MP -MF"uart.d" -MT"uart.o" -c -o "uart.o" "../uart.c"
+Finished building: ../uart.c
+ 
+Building target: Door_Locker_MC2.elf
+Invoking: AVR C Linker
+avr-gcc -Wl,-Map,Door_Locker_MC2.map -mmcu=atmega32 -o "Door_Locker_MC2.elf"  ./App.o ./buzzer.o ./dc_motor.o ./external_eeprom.o ./gpio.o ./pwm.o ./timerOne.o ./twi.o ./uart.o   
+Finished building target: Door_Locker_MC2.elf
+ 
+Invoking: AVR Create Extended Listing
+avr-objdump -h -S Door_Locker_MC2.elf  >"Door_Locker_MC2.lss"
+Finished building: Door_Locker_MC2.lss
+ 
+Invoking: Print Size
+avr-size --format=avr --mcu=atmega32 Door_Locker_MC2.elf
+AVR Memory Usage
+----------------
+Device: atmega32
+
+Program:    8358 bytes (25.5% Full)
+(.text + .data + .bootloader)
+
+Data:         25 bytes (1.2% Full)
+(.data + .bss + .noinit)
+
+
+Finished building: sizedummy
+ 
+05:43:36 **** Incremental Build of configuration Debug for project Door_Locker_MC1 ****
+make all 
+Building file: ../App.c
+Invoking: AVR Compiler
+avr-gcc -Wall -g2 -gstabs -O0 -fpack-struct -fshort-enums -ffunction-sections -fdata-sections -std=gnu99 -funsigned-char -funsigned-bitfields -mmcu=atmega32 -DF_CPU=8000000UL -MMD -MP -MF"App.d" -MT"App.o" -c -o "App.o" "../App.c"
+In file included from ../App.c:12:
+c:/winavr-20100110/lib/gcc/../../avr/include/util/delay.h:90:3: warning: #warning "Compiler optimizations disabled; functions from <util/delay.h> won't work as designed"
+../App.c:376: error: expected identifier or '(' before '>>' token
+make: *** [App.o] Error 1
+"make all" terminated with exit code 2. Build might be incomplete.
+05:43:37 **** Incremental Build of configuration Debug for project Door_Locker_MC2 ****
+make all 
+Invoking: Print Size
+avr-size --format=avr --mcu=atmega32 Door_Locker_MC2.elf
+AVR Memory Usage
+----------------
+Device: atmega32
+
+Program:    8358 bytes (25.5% Full)
+(.text + .data + .bootloader)
+
+Data:         25 bytes (1.2% Full)
+(.data + .bss + .noinit)
+
+
+Finished building: sizedummy
+ 
+05:43:39 **** Incremental Build of configuration Debug for project Door_Locker_MC1 ****
+make all 
+Building file: ../App.c
+Invoking: AVR Compiler
+avr-gcc -Wall -g2 -gstabs -O0 -fpack-struct -fshort-enums -ffunction-sections -fdata-sections -std=gnu99 -funsigned-char -funsigned-bitfields -mmcu=atmega32 -DF_CPU=8000000UL -MMD -MP -MF"App.d" -MT"App.o" -c -o "App.o" "../App.c"
+In file included from ../App.c:12:
+c:/winavr-20100110/lib/gcc/../../avr/include/util/delay.h:90:3: warning: #warning "Compiler optimizations disabled; functions from <util/delay.h> won't work as designed"
+../App.c:376: error: expected identifier or '(' before '>>' token
+make: *** [App.o] Error 1
+"make all" terminated with exit code 2. Build might be incomplete.
+05:43:41 **** Incremental Build of configuration Debug for project Door_Locker_MC2 ****
+make all 
+Invoking: Print Size
+avr-size --format=avr --mcu=atmega32 Door_Locker_MC2.elf
+AVR Memory Usage
+----------------
+Device: atmega32
+
+Program:    8358 bytes (25.5% Full)
+(.text + .data + .bootloader)
+
+Data:         25 bytes (1.2% Full)
+(.data + .bss + .noinit)
+
+
+Finished building: sizedummy
+ 
+05:43:57 **** Incremental Build of configuration Debug for project Door_Locker_MC1 ****
+make all 
+Building file: ../App.c
+Invoking: AVR Compiler
+avr-gcc -Wall -g2 -gstabs -O0 -fpack-struct -fshort-enums -ffunction-sections -fdata-sections -std=gnu99 -funsigned-char -funsigned-bitfields -mmcu=atmega32 -DF_CPU=8000000UL -MMD -MP -MF"App.d" -MT"App.o" -c -o "App.o" "../App.c"
+In file included from ../App.c:12:
+c:/winavr-20100110/lib/gcc/../../avr/include/util/delay.h:90:3: warning: #warning "Compiler optimizations disabled; functions from <util/delay.h> won't work as designed"
+../App.c:376: error: expected identifier or '(' before '>>' token
+make: *** [App.o] Error 1
+"make all" terminated with exit code 2. Build might be incomplete.
+05:43:58 **** Incremental Build of configuration Debug for project Door_Locker_MC2 ****
+make all 
+Invoking: Print Size
+avr-size --format=avr --mcu=atmega32 Door_Locker_MC2.elf
+AVR Memory Usage
+----------------
+Device: atmega32
+
+Program:    8358 bytes (25.5% Full)
+(.text + .data + .bootloader)
+
+Data:         25 bytes (1.2% Full)
+(.data + .bss + .noinit)
+
+
+Finished building: sizedummy
+ 
+05:44:07 **** Incremental Build of configuration Debug for project Door_Locker_MC1 ****
+make all 
+Building file: ../App.c
+Invoking: AVR Compiler
+avr-gcc -Wall -g2 -gstabs -O0 -fpack-struct -fshort-enums -ffunction-sections -fdata-sections -std=gnu99 -funsigned-char -funsigned-bitfields -mmcu=atmega32 -DF_CPU=8000000UL -MMD -MP -MF"App.d" -MT"App.o" -c -o "App.o" "../App.c"
+In file included from ../App.c:12:
+c:/winavr-20100110/lib/gcc/../../avr/include/util/delay.h:90:3: warning: #warning "Compiler optimizations disabled; functions from <util/delay.h> won't work as designed"
+Finished building: ../App.c
+ 
+Building file: ../gpio.c
+Invoking: AVR Compiler
+avr-gcc -Wall -g2 -gstabs -O0 -fpack-struct -fshort-enums -ffunction-sections -fdata-sections -std=gnu99 -funsigned-char -funsigned-bitfields -mmcu=atmega32 -DF_CPU=8000000UL -MMD -MP -MF"gpio.d" -MT"gpio.o" -c -o "gpio.o" "../gpio.c"
+Finished building: ../gpio.c
+ 
+Building file: ../keypad.c
+Invoking: AVR Compiler
+avr-gcc -Wall -g2 -gstabs -O0 -fpack-struct -fshort-enums -ffunction-sections -fdata-sections -std=gnu99 -funsigned-char -funsigned-bitfields -mmcu=atmega32 -DF_CPU=8000000UL -MMD -MP -MF"keypad.d" -MT"keypad.o" -c -o "keypad.o" "../keypad.c"
+In file included from ../keypad.c:14:
+c:/winavr-20100110/lib/gcc/../../avr/include/util/delay.h:90:3: warning: #warning "Compiler optimizations disabled; functions from <util/delay.h> won't work as designed"
+Finished building: ../keypad.c
+ 
+Building file: ../lcd.c
+Invoking: AVR Compiler
+avr-gcc -Wall -g2 -gstabs -O0 -fpack-struct -fshort-enums -ffunction-sections -fdata-sections -std=gnu99 -funsigned-char -funsigned-bitfields -mmcu=atmega32 -DF_CPU=8000000UL -MMD -MP -MF"lcd.d" -MT"lcd.o" -c -o "lcd.o" "../lcd.c"
+In file included from ../lcd.c:13:
+c:/winavr-20100110/lib/gcc/../../avr/include/util/delay.h:90:3: warning: #warning "Compiler optimizations disabled; functions from <util/delay.h> won't work as designed"
+../lcd.c: In function 'LCD_intgerToString':
+../lcd.c:209: warning: implicit declaration of function 'itoa'
+Finished building: ../lcd.c
+ 
+Building file: ../timerOne.c
+Invoking: AVR Compiler
+avr-gcc -Wall -g2 -gstabs -O0 -fpack-struct -fshort-enums -ffunction-sections -fdata-sections -std=gnu99 -funsigned-char -funsigned-bitfields -mmcu=atmega32 -DF_CPU=8000000UL -MMD -MP -MF"timerOne.d" -MT"timerOne.o" -c -o "timerOne.o" "../timerOne.c"
+Finished building: ../timerOne.c
+ 
+Building file: ../uart.c
+Invoking: AVR Compiler
+avr-gcc -Wall -g2 -gstabs -O0 -fpack-struct -fshort-enums -ffunction-sections -fdata-sections -std=gnu99 -funsigned-char -funsigned-bitfields -mmcu=atmega32 -DF_CPU=8000000UL -MMD -MP -MF"uart.d" -MT"uart.o" -c -o "uart.o" "../uart.c"
+Finished building: ../uart.c
+ 
+Building target: Door_Locker_MC1.elf
+Invoking: AVR C Linker
+avr-gcc -Wl,-Map,Door_Locker_MC1.map -mmcu=atmega32 -o "Door_Locker_MC1.elf"  ./App.o ./gpio.o ./keypad.o ./lcd.o ./timerOne.o ./uart.o   
+Finished building target: Door_Locker_MC1.elf
+ 
+Invoking: AVR Create Extended Listing
+avr-objdump -h -S Door_Locker_MC1.elf  >"Door_Locker_MC1.lss"
+Finished building: Door_Locker_MC1.lss
+ 
+Invoking: Print Size
+avr-size --format=avr --mcu=atmega32 Door_Locker_MC1.elf
+AVR Memory Usage
+----------------
+Device: atmega32
+
+Program:   22704 bytes (69.3% Full)
+(.text + .data + .bootloader)
+
+Data:        171 bytes (8.3% Full)
+(.data + .bss + .noinit)
+
+
+Finished building: sizedummy
+ 
+05:44:11 **** Incremental Build of configuration Debug for project Door_Locker_MC2 ****
+make all 
+Invoking: Print Size
+avr-size --format=avr --mcu=atmega32 Door_Locker_MC2.elf
+AVR Memory Usage
+----------------
+Device: atmega32
+
+Program:    8358 bytes (25.5% Full)
+(.text + .data + .bootloader)
+
+Data:         25 bytes (1.2% Full)
+(.data + .bss + .noinit)
+
+
+Finished building: sizedummy
+ 
+05:44:13 **** Incremental Build of configuration Debug for project Door_Locker_MC1 ****
+make all 
+Invoking: Print Size
+avr-size --format=avr --mcu=atmega32 Door_Locker_MC1.elf
+AVR Memory Usage
+----------------
+Device: atmega32
+
+Program:   22704 bytes (69.3% Full)
+(.text + .data + .bootloader)
+
+Data:        171 bytes (8.3% Full)
+(.data + .bss + .noinit)
+
+
+Finished building: sizedummy
+ 
+05:44:14 **** Incremental Build of configuration Debug for project Door_Locker_MC2 ****
+make all 
+Invoking: Print Size
+avr-size --format=avr --mcu=atmega32 Door_Locker_MC2.elf
+AVR Memory Usage
+----------------
+Device: atmega32
+
+Program:    8358 bytes (25.5% Full)
+(.text + .data + .bootloader)
+
+Data:         25 bytes (1.2% Full)
+(.data + .bss + .noinit)
+
+
+Finished building: sizedummy
+ 
