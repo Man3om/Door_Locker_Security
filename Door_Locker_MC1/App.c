@@ -81,7 +81,7 @@ int main(void)
 			do
 			{
 				key = KEYPAD_getPressedKey() ;
-				_delay_ms(500);
+				_delay_us(500);
 			} while(key != 13);
 
 			LCD_clearScreen();
@@ -109,14 +109,14 @@ int main(void)
 			{
 				UART_sendByte(pass1[i]);
 
-				_delay_ms(20);
+				_delay_us(20);
 			}
 
 			for(i = 0 ; i < 5 ; i++)
 			{
 				UART_sendByte(pass2[i]);
 
-				_delay_ms(20);
+				_delay_us(20);
 			}
 
 			status = UART_recieveByte();/* Waiting Checking Result From 2nd MCU */
@@ -164,14 +164,14 @@ int main(void)
 
 				UART_sendByte(CHECK); /* */
 
-				_delay_ms(20);
+				_delay_us(20);
 
 				/* Send Password To 2nd MCU */
 				for(i = 0 ; i < 5 ; i++)
 				{
 					UART_sendByte(pass1[i]);
 
-					_delay_ms(20);
+					_delay_us(20);
 				}
 
 				status = UART_recieveByte();/* Waiting Checking Result From 2nd MCU */
@@ -238,14 +238,14 @@ int main(void)
 
 							UART_sendByte(CHECK); /* */
 
-							_delay_ms(20);
+							_delay_us(20);
 
 							/* Send Password To 2nd MCU */
 							for(i = 0 ; i < 5 ; i++)
 							{
 								UART_sendByte(pass1[i]);
 
-								_delay_ms(20);
+								_delay_us(20);
 							}
 
 							status = UART_recieveByte();
@@ -291,14 +291,14 @@ int main(void)
 
 				UART_sendByte(CHECK); /* */
 
-				_delay_ms(20);
+				_delay_us(20);
 
 				/* Send Password To 2nd MCU */
 				for(i = 0 ; i < 5 ; i++)
 				{
 					UART_sendByte(pass1[i]);
 
-					_delay_ms(20);
+					_delay_us(20);
 				}
 
 				status = UART_recieveByte();/* Waiting Checking Result From 2nd MCU */
@@ -341,14 +341,14 @@ int main(void)
 
 							UART_sendByte(CHECK); /* */
 
-							_delay_ms(20);
+							_delay_us(20);
 
 							/* Send Password To 2nd MCU */
 							for(i = 0 ; i < 5 ; i++)
 							{
 								UART_sendByte(pass1[i]);
 
-								_delay_ms(20);
+								_delay_us(20);
 							}
 
 							status = UART_recieveByte();
