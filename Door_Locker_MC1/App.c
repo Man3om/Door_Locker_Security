@@ -81,7 +81,7 @@ int main(void)
 			do
 			{
 				key = KEYPAD_getPressedKey() ;
-				_delay_us(500);
+				_delay_ms(500);
 			} while(key != 13);
 
 			LCD_clearScreen();
