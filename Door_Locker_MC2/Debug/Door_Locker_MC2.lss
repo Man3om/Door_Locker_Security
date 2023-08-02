@@ -2313,7 +2313,7 @@ _delay_ms(double __ms)
     105e:	80 91 76 00 	lds	r24, 0x0076
     1062:	8f 30       	cpi	r24, 0x0F	; 15
     1064:	e1 f7       	brne	.-8      	; 0x105e <main+0x500>
-				Timer1_deInit();
+				Timer1_deInit(); /* Stop Timer */
     1066:	0e 94 6c 0d 	call	0x1ad8	; 0x1ad8 <Timer1_deInit>
 				g_count = 0 ;
     106a:	10 92 76 00 	sts	0x0076, r1
@@ -2330,7 +2330,7 @@ _delay_ms(double __ms)
     107e:	80 91 76 00 	lds	r24, 0x0076
     1082:	83 30       	cpi	r24, 0x03	; 3
     1084:	e1 f7       	brne	.-8      	; 0x107e <main+0x520>
-				Timer1_deInit();
+				Timer1_deInit(); /* Stop Timer */
     1086:	0e 94 6c 0d 	call	0x1ad8	; 0x1ad8 <Timer1_deInit>
 				g_count = 0 ;
     108a:	10 92 76 00 	sts	0x0076, r1
@@ -2352,7 +2352,7 @@ _delay_ms(double __ms)
     10a0:	80 91 76 00 	lds	r24, 0x0076
     10a4:	8f 30       	cpi	r24, 0x0F	; 15
     10a6:	e1 f7       	brne	.-8      	; 0x10a0 <main+0x542>
-				Timer1_deInit();
+				Timer1_deInit(); /* Stop Timer */
     10a8:	0e 94 6c 0d 	call	0x1ad8	; 0x1ad8 <Timer1_deInit>
 				g_count = 0 ;
     10ac:	10 92 76 00 	sts	0x0076, r1
@@ -2376,7 +2376,7 @@ _delay_ms(double __ms)
     10c6:	80 91 76 00 	lds	r24, 0x0076
     10ca:	8c 33       	cpi	r24, 0x3C	; 60
     10cc:	e1 f7       	brne	.-8      	; 0x10c6 <main+0x568>
-				Timer1_deInit();
+				Timer1_deInit(); /* Stop Timer */
     10ce:	0e 94 6c 0d 	call	0x1ad8	; 0x1ad8 <Timer1_deInit>
 				g_count = 0 ;
     10d2:	10 92 76 00 	sts	0x0076, r1

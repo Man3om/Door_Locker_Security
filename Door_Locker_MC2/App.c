@@ -17,14 +17,14 @@
 /*********************************************************************************
  *                            Important Macros                                   *
  ********************************************************************************/
-#define MC2_Ready 0x01
-#define OK        0x10
-#define ERROR     0x00
-#define CHECK     0x11
-#define UNLOCK    0x12
-#define LOCK      0x13
-#define BUZZER    0x14
-#define CR_PASS   0x15
+#define MC2_Ready 0x01   /* MCU2 is Ready For Receiving */
+#define OK        0x10   /* Pass is Right */
+#define ERROR     0x00	 /* Pass is Wrong */
+#define CHECK     0x11   /* Checking The Received Pass */
+#define UNLOCK    0x12   /* Unlock DOOR */
+#define LOCK      0x13   /* Lock DOOR */
+#define BUZZER    0x14   /* Turn On Buzzer */
+#define CR_PASS   0x15   /* Create Pass */
 
 /*********************************************************************************
  *                            Global Variables                                   *
@@ -156,13 +156,13 @@ int main(void)
 				DcMotor_Rotate(100, CW); /* Unlocking The Door*/
 				Timer1_init(&t_configure); /* Start Timer */
 				while(g_count != 15); /* Waiting For 15 Seconds */
-				Timer1_deInit();
+				Timer1_deInit(); /* Stop Timer */
 				g_count = 0 ;
 
 				DcMotor_Rotate(0, OFF); /* Hold */
 				Timer1_init(&t_configure); /* Start Timer */
 				while(g_count != 3); /* Waiting For 3 Seconds */
-				Timer1_deInit();
+				Timer1_deInit(); /* Stop Timer */
 				g_count = 0 ;
 
 				break;
@@ -172,7 +172,7 @@ int main(void)
 				DcMotor_Rotate(100, CCW); /* Locking The Door */
 				Timer1_init(&t_configure); /* Start Timer */
 				while(g_count != 15); /* Waiting For 15 Seconds */
-				Timer1_deInit();
+				Timer1_deInit(); /* Stop Timer */
 				g_count = 0 ;
 				DcMotor_Rotate(0, OFF); /* Stop Motor */
 
@@ -183,7 +183,7 @@ int main(void)
 				Buzzer_on(); /* Turn On Buzzer */
 				Timer1_init(&t_configure); /* Start Timer */
 				while(g_count != 60); /* Waiting For 60 Seconds */
-				Timer1_deInit();
+				Timer1_deInit(); /* Stop Timer */
 				g_count = 0 ;
 				Buzzer_off(); /* Turn Off Buzzer */
 

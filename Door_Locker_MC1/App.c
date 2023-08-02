@@ -15,14 +15,14 @@
 /*********************************************************************************
  *                            Important Macros                                   *
  ********************************************************************************/
-#define MC2_Ready 0x01
-#define OK        0x10
-#define ERROR     0x00
-#define CHECK     0x11
-#define UNLOCK    0x12
-#define LOCK      0x13
-#define BUZZER    0x14
-#define CR_PASS   0x15
+#define MC2_Ready 0x01   /* MCU2 is Ready For Receiving */
+#define OK        0x10   /* Pass is Right */
+#define ERROR     0x00	 /* Pass is Wrong */
+#define CHECK     0x11   /* Checking The Received Pass */
+#define UNLOCK    0x12   /* Unlock DOOR */
+#define LOCK      0x13   /* Lock DOOR */
+#define BUZZER    0x14   /* Turn On Buzzer */
+#define CR_PASS   0x15   /* Create Pass */
 
 /*********************************************************************************
  *                            Global Variables                                   *
@@ -162,7 +162,7 @@ int main(void)
 					_delay_ms(500);
 				} while(key != 13);
 
-				UART_sendByte(CHECK); /* */
+				UART_sendByte(CHECK); /* Inform Other MCU to Check The Pass */
 
 				_delay_us(20);
 
@@ -186,7 +186,7 @@ int main(void)
 						LCD_displayStringRowColumn(0, 1, "Door Unlocking");
 						Timer1_init(&t_configure); /* Start Timer */
 						while(g_count != 15); /* Waiting For 15 Seconds */
-						Timer1_deInit();
+						Timer1_deInit(); /* Stop Timer */
 						g_count = 0 ;
 
 						/* Door Holding */
@@ -194,7 +194,7 @@ int main(void)
 						LCD_displayStringRowColumn(0, 1, "Door Holding");
 						Timer1_init(&t_configure); /* Start Timer */
 						while(g_count != 3); /* Waiting For 3 Seconds */
-						Timer1_deInit();
+						Timer1_deInit(); /* Stop Timer */
 						g_count = 0 ;
 
 						/* Door locking */
@@ -203,7 +203,7 @@ int main(void)
 						LCD_displayStringRowColumn(0, 1, "Door Locking");
 						Timer1_init(&t_configure); /* Start Timer */
 						while(g_count != 15); /* Waiting For 15 Seconds */
-						Timer1_deInit();
+						Timer1_deInit(); /* Stop Timer */
 						g_count = 0 ;
 
 						break;
@@ -236,7 +236,7 @@ int main(void)
 								_delay_ms(500);
 							} while(key != 13);
 
-							UART_sendByte(CHECK); /* */
+							UART_sendByte(CHECK); /* Inform Other MCU to Check The Pass */
 
 							_delay_us(20);
 
@@ -248,7 +248,7 @@ int main(void)
 								_delay_us(20);
 							}
 
-							status = UART_recieveByte();
+							status = UART_recieveByte(); /* Waiting Checking Result From 2nd MCU */
 
 						}while((count != 2) && (status == ERROR));
 
@@ -259,7 +259,7 @@ int main(void)
 							LCD_displayString("System Locked");
 							Timer1_init(&t_configure); /* Start Timer */
 							while(g_count != 60); /* Waiting For 60 Seconds */
-							Timer1_deInit();
+							Timer1_deInit(); /* Stop Timer */
 							g_count = 0 ;
 
 							break;
@@ -289,7 +289,7 @@ int main(void)
 					_delay_ms(500);
 				} while(key != 13);
 
-				UART_sendByte(CHECK); /* */
+				UART_sendByte(CHECK); /* Inform Other MCU to Check The Pass */
 
 				_delay_us(20);
 
@@ -308,7 +308,7 @@ int main(void)
 					if(status == OK) /* Right Password */
 					{
 						flag = 0 ;
-						UART_sendByte(CR_PASS);
+						UART_sendByte(CR_PASS); /* Inform other MCU Current Phase Create Pass */
 						break;
 					}
 					else /* Wrong Password */
@@ -351,7 +351,7 @@ int main(void)
 								_delay_us(20);
 							}
 
-							status = UART_recieveByte();
+							status = UART_recieveByte(); /* Waiting Checking Result From 2nd MCU */
 
 						}while((count != 2) && (status == ERROR));
 
@@ -362,7 +362,7 @@ int main(void)
 							LCD_displayString("System Locked");
 							Timer1_init(&t_configure); /* Start Timer */
 							while(g_count != 60); /* Waiting For 60 Seconds */
-							Timer1_deInit();
+							Timer1_deInit(); /* Stop Timer */
 							g_count = 0 ;
 
 							break;
