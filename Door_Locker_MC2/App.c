@@ -21,8 +21,7 @@
 #define OK        0x10   /* Pass is Right */
 #define ERROR     0x00	 /* Pass is Wrong */
 #define CHECK     0x11   /* Checking The Received Pass */
-#define UNLOCK    0x12   /* Unlock DOOR */
-#define LOCK      0x13   /* Lock DOOR */
+#define MOTOR    0x12   /* Unlock DOOR */
 #define BUZZER    0x14   /* Turn On Buzzer */
 #define CR_PASS   0x15   /* Create Pass */
 
@@ -32,11 +31,26 @@
 uint8 g_count = 0 ;
 
 /*********************************************************************************
- *                            CallBack Function                                  *
+ *                            Users Function                                  *
  ********************************************************************************/
 void Timer(void) /* Every 1 Second Timer ISR Call This Function */
 {
 	g_count++ ;
+}
+
+/*
+ * Description: Delay Function using Timer 1
+ * Input: Number of Seconds
+ * Return: Void
+ */
+void delay(uint8 second)
+{
+	/* Configure Timer With Desired Specifications */
+	Timer1_ConfigType t_configure = {0 , 7812 , Fcpu1024 , CTC };
+	Timer1_init(&t_configure); /* Start Timer */
+	while(g_count != second); /* Waiting */
+	Timer1_deInit(); /* Stop Timer */
+	g_count = 0 ;
 }
 
 /*********************************************************************************
@@ -51,7 +65,6 @@ int main(void)
 
 	/* Configure The UART ,Timer1 & TWI With Desired Specifications */
 	UART_ConfigType u_configure = {BIT8 , Disable , ONE_Stop , 9600};
-	Timer1_ConfigType t_configure = {0 , 7812 , Fcpu1024 , CTC };
 	TWI_ConfigType i_configure = { 1 , 2 };
 
 	/* Initialization Drivers */
@@ -151,29 +164,16 @@ int main(void)
 
 				break;
 
-			case UNLOCK:
+			case MOTOR:
 
 				DcMotor_Rotate(100, CW); /* Unlocking The Door*/
-				Timer1_init(&t_configure); /* Start Timer */
-				while(g_count != 15); /* Waiting For 15 Seconds */
-				Timer1_deInit(); /* Stop Timer */
-				g_count = 0 ;
+				delay(15); /* Waiting For 15 Seconds */
 
 				DcMotor_Rotate(0, OFF); /* Hold */
-				Timer1_init(&t_configure); /* Start Timer */
-				while(g_count != 3); /* Waiting For 3 Seconds */
-				Timer1_deInit(); /* Stop Timer */
-				g_count = 0 ;
-
-				break;
-
-			case LOCK:
+				delay(3); /* Waiting For 3 Seconds */
 
 				DcMotor_Rotate(100, CCW); /* Locking The Door */
-				Timer1_init(&t_configure); /* Start Timer */
-				while(g_count != 15); /* Waiting For 15 Seconds */
-				Timer1_deInit(); /* Stop Timer */
-				g_count = 0 ;
+				delay(15); /* Waiting For 15 Seconds */
 				DcMotor_Rotate(0, OFF); /* Stop Motor */
 
 				break;
@@ -181,10 +181,7 @@ int main(void)
 			case BUZZER:
 
 				Buzzer_on(); /* Turn On Buzzer */
-				Timer1_init(&t_configure); /* Start Timer */
-				while(g_count != 60); /* Waiting For 60 Seconds */
-				Timer1_deInit(); /* Stop Timer */
-				g_count = 0 ;
+				delay(60); /* Waiting For 60 Seconds */
 				Buzzer_off(); /* Turn Off Buzzer */
 
 				break;

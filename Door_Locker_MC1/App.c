@@ -19,22 +19,116 @@
 #define OK        0x10   /* Pass is Right */
 #define ERROR     0x00	 /* Pass is Wrong */
 #define CHECK     0x11   /* Checking The Received Pass */
-#define UNLOCK    0x12   /* Unlock DOOR */
-#define LOCK      0x13   /* Lock DOOR */
+#define MOTOR    0x12    /* Control DOOR */
 #define BUZZER    0x14   /* Turn On Buzzer */
 #define CR_PASS   0x15   /* Create Pass */
 
 /*********************************************************************************
  *                            Global Variables                                   *
  ********************************************************************************/
-uint8 g_count = 0 ;
+static uint8 g_count = 0 ;
+static uint8 pass1[5] = {0};
+static uint8 pass2[5] = {0};
+static uint8 status = 0 ;
+static uint8 count = 0 ;
+static uint8 key = 0 ;
+static uint8 i = 0 ;
 
 /*********************************************************************************
- *                            CallBack Function                                  *
+ *                            Users Function                                  *
  ********************************************************************************/
 void Timer(void) /* Every 1 Second Timer ISR Call This Function */
 {
 	g_count++ ;
+}
+
+/*
+ * Description: Delay Function using Timer 1
+ * Input: Number of Seconds
+ * Return: Void
+ */
+void delay(uint8 second)
+{
+	/* Configure Timer With Desired Specifications */
+	Timer1_ConfigType t_configure = {0 , 7812 , Fcpu1024 , CTC };
+	Timer1_init(&t_configure); /* Start Timer */
+	while(g_count != second); /* Waiting */
+	Timer1_deInit(); /* Stop Timer */
+	g_count = 0 ;
+}
+
+/*
+ * Description: Function To handle Wrong Password
+ * Input: Void
+ * Return: Void
+ */
+void St_Error(void)
+{
+	count = 0 ;
+
+	do
+	{
+		count++;
+
+		LCD_clearScreen();
+		LCD_displayString("PLZ Enter Pass:");
+		LCD_moveCursor(1, 0);
+
+		/* Enter The Password */
+		for(i = 0 ; i < 5 ; i++)
+		{
+			key = KEYPAD_getPressedKey() ;
+			pass1[i] = key ;
+			LCD_displayCharacter('*');
+			_delay_ms(500);
+		}
+
+		/* Waiting User to press The Enter Button */
+		do
+		{
+			key = KEYPAD_getPressedKey() ;
+			_delay_ms(500);
+		} while(key != 13);
+
+		UART_sendByte(CHECK); /* Inform Other MCU to Check The Pass */
+
+		_delay_us(20);
+
+		/* Send Password To 2nd MCU */
+		for(i = 0 ; i < 5 ; i++)
+		{
+			UART_sendByte(pass1[i]);
+
+			_delay_us(20);
+		}
+
+		status = UART_recieveByte(); /* Waiting Checking Result From 2nd MCU */
+
+	}while((count != 2) && (status == ERROR));
+
+	if((count == 2) && (status == ERROR))
+	{
+		UART_sendByte(BUZZER);
+		LCD_clearScreen();
+		LCD_displayString("System Locked");
+		delay(60); /* Waiting For 60 Seconds */
+	}
+}
+
+/*
+ * Description: Function To send password through UART
+ * Input: Array
+ * Return: Void
+ *
+ */
+void SendPass(uint8 *pass)
+{
+	for(i = 0 ; i < 5 ; i++)
+	{
+		UART_sendByte(pass[i]);
+
+		_delay_us(20);
+	}
 }
 
 /*********************************************************************************
@@ -42,14 +136,12 @@ void Timer(void) /* Every 1 Second Timer ISR Call This Function */
  ********************************************************************************/
 int main(void)
 {
-	uint8 key = 0 , pass1[5] = {0} , pass2[5] = {0} ,i = 0 , status = 0;
-	uint8 flag = 0 , count = 0 ;
+	uint8 flag = 0 ;
 
 	SREG |= (1<<7); /* Enable Global Interrupt */
 
 	/* Configure The UART & Timer1 With Desired Specifications */
 	UART_ConfigType u_configure = {BIT8 , Disable , ONE_Stop , 9600};
-	Timer1_ConfigType t_configure = {0 , 7812 , Fcpu1024 , CTC };
 
 	/* Initialization Drivers */
 	UART_init(&u_configure);
@@ -105,19 +197,8 @@ int main(void)
 			} while(key != 13);
 
 			/* Send 2 Passwords To 2nd MCU */
-			for(i = 0 ; i < 5 ; i++)
-			{
-				UART_sendByte(pass1[i]);
-
-				_delay_us(20);
-			}
-
-			for(i = 0 ; i < 5 ; i++)
-			{
-				UART_sendByte(pass2[i]);
-
-				_delay_us(20);
-			}
+			SendPass(pass1);
+			SendPass(pass2);
 
 			status = UART_recieveByte();/* Waiting Checking Result From 2nd MCU */
 
@@ -167,12 +248,7 @@ int main(void)
 				_delay_us(20);
 
 				/* Send Password To 2nd MCU */
-				for(i = 0 ; i < 5 ; i++)
-				{
-					UART_sendByte(pass1[i]);
-
-					_delay_us(20);
-				}
+				SendPass(pass1);
 
 				status = UART_recieveByte();/* Waiting Checking Result From 2nd MCU */
 
@@ -181,88 +257,30 @@ int main(void)
 					if (status == OK) /* Right Password */
 					{
 						/* Door Unlocking */
-						UART_sendByte(UNLOCK);
+						UART_sendByte(MOTOR);
 						LCD_clearScreen();
 						LCD_displayStringRowColumn(0, 1, "Door Unlocking");
-						Timer1_init(&t_configure); /* Start Timer */
-						while(g_count != 15); /* Waiting For 15 Seconds */
-						Timer1_deInit(); /* Stop Timer */
-						g_count = 0 ;
+						delay(15); /* Waiting For 15 Seconds */
 
 						/* Door Holding */
 						LCD_clearScreen();
 						LCD_displayStringRowColumn(0, 1, "Door Holding");
-						Timer1_init(&t_configure); /* Start Timer */
-						while(g_count != 3); /* Waiting For 3 Seconds */
-						Timer1_deInit(); /* Stop Timer */
-						g_count = 0 ;
+						delay(3); /* Waiting For 3 Seconds */
 
 						/* Door locking */
-						UART_sendByte(LOCK);
 						LCD_clearScreen();
 						LCD_displayStringRowColumn(0, 1, "Door Locking");
-						Timer1_init(&t_configure); /* Start Timer */
-						while(g_count != 15); /* Waiting For 15 Seconds */
-						Timer1_deInit(); /* Stop Timer */
-						g_count = 0 ;
+						delay(15); /* Waiting For 15 Seconds */
 
 						break;
 					}
 					else if(status == ERROR) /* Wrong Password */
 					{
-						count = 0 ;
+						St_Error(); /* Call ERROR Function */
 
-						do
+						if(status == ERROR)
 						{
-							count++;
-
-							LCD_clearScreen();
-							LCD_displayString("PLZ Enter Pass:");
-							LCD_moveCursor(1, 0);
-
-							/* Enter The Password */
-							for(i = 0 ; i < 5 ; i++)
-							{
-								key = KEYPAD_getPressedKey() ;
-								pass1[i] = key ;
-								LCD_displayCharacter('*');
-								_delay_ms(500);
-							}
-
-							/* Waiting User to press The Enter Button */
-							do
-							{
-								key = KEYPAD_getPressedKey() ;
-								_delay_ms(500);
-							} while(key != 13);
-
-							UART_sendByte(CHECK); /* Inform Other MCU to Check The Pass */
-
-							_delay_us(20);
-
-							/* Send Password To 2nd MCU */
-							for(i = 0 ; i < 5 ; i++)
-							{
-								UART_sendByte(pass1[i]);
-
-								_delay_us(20);
-							}
-
-							status = UART_recieveByte(); /* Waiting Checking Result From 2nd MCU */
-
-						}while((count != 2) && (status == ERROR));
-
-						if((count == 2) && (status == ERROR))
-						{
-							UART_sendByte(BUZZER);
-							LCD_clearScreen();
-							LCD_displayString("System Locked");
-							Timer1_init(&t_configure); /* Start Timer */
-							while(g_count != 60); /* Waiting For 60 Seconds */
-							Timer1_deInit(); /* Stop Timer */
-							g_count = 0 ;
-
-							break;
+							break ;
 						}
 					}
 				}
@@ -294,12 +312,7 @@ int main(void)
 				_delay_us(20);
 
 				/* Send Password To 2nd MCU */
-				for(i = 0 ; i < 5 ; i++)
-				{
-					UART_sendByte(pass1[i]);
-
-					_delay_us(20);
-				}
+				SendPass(pass1);
 
 				status = UART_recieveByte();/* Waiting Checking Result From 2nd MCU */
 
@@ -313,59 +326,11 @@ int main(void)
 					}
 					else /* Wrong Password */
 					{
-						count = 0 ;
+						St_Error(); /* Call ERROR Function */
 
-						do
+						if(status == ERROR)
 						{
-							count++;
-
-							LCD_clearScreen();
-							LCD_displayString("PLZ Enter Pass:");
-							LCD_moveCursor(1, 0);
-
-							/* Enter The Password */
-							for(i = 0 ; i < 5 ; i++)
-							{
-								key = KEYPAD_getPressedKey() ;
-								pass1[i] = key ;
-								LCD_displayCharacter('*');
-								_delay_ms(500);
-							}
-
-							/* Waiting User to press The Enter Button */
-							do
-							{
-								key = KEYPAD_getPressedKey() ;
-								_delay_ms(500);
-							} while(key != 13);
-
-							UART_sendByte(CHECK); /* */
-
-							_delay_us(20);
-
-							/* Send Password To 2nd MCU */
-							for(i = 0 ; i < 5 ; i++)
-							{
-								UART_sendByte(pass1[i]);
-
-								_delay_us(20);
-							}
-
-							status = UART_recieveByte(); /* Waiting Checking Result From 2nd MCU */
-
-						}while((count != 2) && (status == ERROR));
-
-						if((count == 2) && (status == ERROR))
-						{
-							UART_sendByte(BUZZER);
-							LCD_clearScreen();
-							LCD_displayString("System Locked");
-							Timer1_init(&t_configure); /* Start Timer */
-							while(g_count != 60); /* Waiting For 60 Seconds */
-							Timer1_deInit(); /* Stop Timer */
-							g_count = 0 ;
-
-							break;
+							break ;
 						}
 					}
 				}
