@@ -27,12 +27,6 @@
  *                            Global Variables                                   *
  ********************************************************************************/
 static uint8 g_count = 0 ;
-static uint8 pass1[5] = {0};
-static uint8 pass2[5] = {0};
-static uint8 status = 0 ;
-static uint8 count = 0 ;
-static uint8 key = 0 ;
-static uint8 i = 0 ;
 
 /*********************************************************************************
  *                            Users Function                                  *
@@ -58,13 +52,67 @@ void delay(uint8 second)
 }
 
 /*
+ * Description: Function To send password through UART
+ * Input: Array
+ * Return: Void
+ *
+ */
+void SendPass(uint8 *pass)
+{
+	uint8 i = 0 ;
+
+	for(i = 0 ; i < 5 ; i++)
+	{
+		UART_sendByte(pass[i]);
+
+		_delay_us(20);
+	}
+}
+
+/*
+ * Description: Function To Enter password
+ * Input: Array
+ * Return: Void
+ *
+ */
+void Enter_pass(uint8 *pass)
+{
+	uint8 key = 0 , i = 0 ;
+
+	for(i = 0 ; i < 5 ; i++)
+	{
+		key = KEYPAD_getPressedKey() ;
+		pass[i] = key ;
+		LCD_displayCharacter('*');
+		_delay_ms(500);
+	}
+
+}
+
+/*
+ * Description: Function for waiting user to press Enter
+ * Input: Void
+ * Return: Void
+ */
+void waiting()
+{
+	uint8 key = 0 ;
+
+	do
+	{
+		key = KEYPAD_getPressedKey() ;
+		_delay_ms(500);
+	} while(key != 13);
+}
+
+/*
  * Description: Function To handle Wrong Password
  * Input: Void
  * Return: Void
  */
-void St_Error(void)
+void St_Error(uint8 *Status)
 {
-	count = 0 ;
+	uint8 i = 0 , key = 0  , pass[5] = {0} , count = 0 ;
 
 	do
 	{
@@ -75,38 +123,22 @@ void St_Error(void)
 		LCD_moveCursor(1, 0);
 
 		/* Enter The Password */
-		for(i = 0 ; i < 5 ; i++)
-		{
-			key = KEYPAD_getPressedKey() ;
-			pass1[i] = key ;
-			LCD_displayCharacter('*');
-			_delay_ms(500);
-		}
+		Enter_pass(pass);
 
 		/* Waiting User to press The Enter Button */
-		do
-		{
-			key = KEYPAD_getPressedKey() ;
-			_delay_ms(500);
-		} while(key != 13);
+		waiting();
 
 		UART_sendByte(CHECK); /* Inform Other MCU to Check The Pass */
 
 		_delay_us(20);
 
 		/* Send Password To 2nd MCU */
-		for(i = 0 ; i < 5 ; i++)
-		{
-			UART_sendByte(pass1[i]);
+		SendPass(pass);
 
-			_delay_us(20);
-		}
+		*Status = UART_recieveByte(); /* Waiting Checking Result From 2nd MCU */
+	}while((count != 2) && (*Status == ERROR));
 
-		status = UART_recieveByte(); /* Waiting Checking Result From 2nd MCU */
-
-	}while((count != 2) && (status == ERROR));
-
-	if((count == 2) && (status == ERROR))
+	if((count == 2) && (*Status == ERROR))
 	{
 		UART_sendByte(BUZZER);
 		LCD_clearScreen();
@@ -115,28 +147,13 @@ void St_Error(void)
 	}
 }
 
-/*
- * Description: Function To send password through UART
- * Input: Array
- * Return: Void
- *
- */
-void SendPass(uint8 *pass)
-{
-	for(i = 0 ; i < 5 ; i++)
-	{
-		UART_sendByte(pass[i]);
-
-		_delay_us(20);
-	}
-}
-
 /*********************************************************************************
  *                            Application Code                                   *
  ********************************************************************************/
 int main(void)
 {
-	uint8 flag = 0 ;
+	uint8 flag = 0 , key = 0 , i = 0 , status = 0 ;
+	uint8 pass1[5] = {0} , pass2[5] = {0};
 
 	SREG |= (1<<7); /* Enable Global Interrupt */
 
@@ -161,40 +178,20 @@ int main(void)
 			LCD_moveCursor(1, 0);
 
 			/* Enter The Password */
-			for(i = 0 ; i < 5 ; i++)
-			{
-				key = KEYPAD_getPressedKey() ;
-				pass1[i] = key ;
-				LCD_displayCharacter('*');
-				_delay_ms(500);
-			}
+			Enter_pass(pass1);
 
 			/* Waiting User to press The Enter Button */
-			do
-			{
-				key = KEYPAD_getPressedKey() ;
-				_delay_ms(500);
-			} while(key != 13);
+			waiting();
 
 			LCD_clearScreen();
 			LCD_displayString("Plz re-enter the");
 			LCD_displayStringRowColumn(1, 0, "same Pass: ");
 
 			/* Re-enter The same Password */
-			for(i = 0 ; i < 5 ; i++)
-			{
-				key = KEYPAD_getPressedKey() ;
-				pass2[i] = key ;
-				LCD_displayCharacter('*');
-				_delay_ms(500);
-			}
+			Enter_pass(pass2);
 
 			/* Waiting User to press The Enter Button */
-			do
-			{
-				key = KEYPAD_getPressedKey() ;
-				_delay_ms(500);
-			} while(key != 13);
+			waiting();
 
 			/* Send 2 Passwords To 2nd MCU */
 			SendPass(pass1);
@@ -228,20 +225,10 @@ int main(void)
 				LCD_moveCursor(1, 0);
 
 				/* Enter The Password */
-				for(i = 0 ; i < 5 ; i++)
-				{
-					key = KEYPAD_getPressedKey() ;
-					pass1[i] = key ;
-					LCD_displayCharacter('*');
-					_delay_ms(500);
-				}
+				Enter_pass(pass1);
 
 				/* Waiting User to press The Enter Button */
-				do
-				{
-					key = KEYPAD_getPressedKey() ;
-					_delay_ms(500);
-				} while(key != 13);
+				waiting();
 
 				UART_sendByte(CHECK); /* Inform Other MCU to Check The Pass */
 
@@ -276,7 +263,7 @@ int main(void)
 					}
 					else if(status == ERROR) /* Wrong Password */
 					{
-						St_Error(); /* Call ERROR Function */
+						St_Error(&status); /* Call ERROR Function */
 
 						if(status == ERROR)
 						{
@@ -292,20 +279,10 @@ int main(void)
 				LCD_moveCursor(1, 0);
 
 				/* Enter The Password */
-				for(i = 0 ; i < 5 ; i++)
-				{
-					key = KEYPAD_getPressedKey() ;
-					pass1[i] = key ;
-					LCD_displayCharacter('*');
-					_delay_ms(500);
-				}
+				Enter_pass(pass1);
 
 				/* Waiting User to press The Enter Button */
-				do
-				{
-					key = KEYPAD_getPressedKey() ;
-					_delay_ms(500);
-				} while(key != 13);
+				waiting();
 
 				UART_sendByte(CHECK); /* Inform Other MCU to Check The Pass */
 
@@ -326,7 +303,7 @@ int main(void)
 					}
 					else /* Wrong Password */
 					{
-						St_Error(); /* Call ERROR Function */
+						St_Error(&status); /* Call ERROR Function */
 
 						if(status == ERROR)
 						{

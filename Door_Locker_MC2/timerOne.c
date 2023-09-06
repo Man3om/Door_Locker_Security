@@ -12,7 +12,7 @@
 #include "timerOne.h"
 #include <avr/interrupt.h>
 
-static void (*g_callBack_ptr)(void) = NULL_PTR ; /* Global Pointer to Function */
+static volatile void (*g_callBack_ptr)(void) = NULL_PTR ; /* Global Pointer to Function */
 
 /*******************************************************************************
  * Description: Function to initialize the Timer driver

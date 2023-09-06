@@ -537,9 +537,9 @@ LOAD c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a
  .stab          0x00001f38      0x3a8 ./uart.o
                                 0x660 (size before relaxing)
 
-.stabstr        0x00000000     0x11d3
+.stabstr        0x00000000     0x11e3
  *(.stabstr)
- .stabstr       0x00000000     0x11d3 ./App.o
+ .stabstr       0x00000000     0x11e3 ./App.o
 
 .stab.excl
  *(.stab.excl)
