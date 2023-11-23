@@ -1,5 +1,5 @@
 # Door_Locker_Security
-Developing a system to unlock a door using a password.
+Developing a system to unlock a door using a password (Atmega 32).
 
 ## Software Architecture Layers:
 
